@@ -249,6 +249,15 @@ body {
   border-color: var(--primary-light);
 }
 
+.card-direction {
+  font-size: 0.7rem;
+  color: white;
+  background: var(--primary);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+
 .card-label {
   font-size: 0.75rem;
   color: var(--text-light);

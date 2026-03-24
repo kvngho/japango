@@ -14,9 +14,26 @@ function shuffle(arr) {
   return a;
 }
 
+function buildCards(words) {
+  const result = [];
+  for (const word of words) {
+    const today = new Date().toISOString().split('T')[0];
+    // 일→한 방향: 아직 오늘 안다고 안 한 경우만
+    if (word.known_jp_kr_date !== today) {
+      result.push({ ...word, direction: 'jp_kr', front: word.hiragana, back: word.korean, frontLabel: 'ひらがな', backLabel: '한국어' });
+    }
+    // 한→일 방향: 아직 오늘 안다고 안 한 경우만
+    if (word.known_kr_jp_date !== today) {
+      result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな' });
+    }
+  }
+  return result;
+}
+
 export function initQuiz() {
   const container = document.getElementById('quiz-container');
-  cards = shuffle(getReviewWords());
+  const reviewWords = getReviewWords();
+  cards = shuffle(buildCards(reviewWords));
   currentIndex = 0;
   stats = { total: cards.length, known: 0, unknown: 0 };
   flipped = false;
@@ -33,7 +50,7 @@ export function initQuiz() {
     return;
   }
 
-  document.getElementById('quiz-buttons').style.display = 'flex';
+  document.getElementById('quiz-buttons').style.display = 'none';
   showCard();
 }
 
@@ -44,33 +61,35 @@ function showCard() {
   }
 
   const card = cards[currentIndex];
-  const showKoreanFirst = Math.random() < 0.5;
   flipped = false;
+  document.getElementById('quiz-buttons').style.display = 'none';
 
-  const front = showKoreanFirst ? card.korean : card.hiragana;
-  const back = showKoreanFirst ? card.hiragana : card.korean;
-  const frontLabel = showKoreanFirst ? '한국어' : 'ひらがな';
-  const backLabel = showKoreanFirst ? 'ひらがな' : '한국어';
+  const directionTag = card.direction === 'jp_kr' ? '일→한' : '한→일';
 
   const container = document.getElementById('quiz-container');
   container.innerHTML = `
     <div class="card" id="quiz-card">
       <div class="card-inner">
         <div class="card-front">
-          <span class="card-label">${frontLabel}</span>
-          <span class="card-text">${front}</span>
-          <span class="card-hint">탭하여 뒤집기</span>
+          <span class="card-direction">${directionTag}</span>
+          <span class="card-label">${card.frontLabel}</span>
+          <span class="card-text">${card.front}</span>
+          <span class="card-hint">탭하여 정답 보기</span>
         </div>
         <div class="card-back">
-          <span class="card-label">${backLabel}</span>
-          <span class="card-text">${back}</span>
+          <span class="card-direction">${directionTag}</span>
+          <span class="card-label">${card.backLabel}</span>
+          <span class="card-text">${card.back}</span>
         </div>
       </div>
     </div>`;
 
   document.getElementById('quiz-card').addEventListener('click', () => {
-    flipped = !flipped;
-    document.getElementById('quiz-card').classList.toggle('flipped', flipped);
+    if (!flipped) {
+      flipped = true;
+      document.getElementById('quiz-card').classList.add('flipped');
+      document.getElementById('quiz-buttons').style.display = 'flex';
+    }
   });
 
   document.getElementById('quiz-progress').textContent =
@@ -104,7 +123,8 @@ function showComplete() {
 
 export function handleKnown() {
   if (currentIndex >= cards.length) return;
-  markKnown(cards[currentIndex].id);
+  const card = cards[currentIndex];
+  markKnown(card.id, card.direction);
   stats.known++;
   currentIndex++;
   showCard();
@@ -112,7 +132,8 @@ export function handleKnown() {
 
 export function handleUnknown() {
   if (currentIndex >= cards.length) return;
-  markUnknown(cards[currentIndex].id);
+  const card = cards[currentIndex];
+  markUnknown(card.id);
   stats.unknown++;
   currentIndex++;
   showCard();

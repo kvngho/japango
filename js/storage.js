@@ -1,7 +1,7 @@
 const STORAGE_KEY = 'japango_words';
 const BACKUP_DATE_KEY = 'japango_last_backup';
 const SCHEMA_VERSION_KEY = 'japango_schema_version';
-const CURRENT_SCHEMA_VERSION = 1;
+const CURRENT_SCHEMA_VERSION = 2;
 
 const INTERVALS = [1, 3, 7, 14, 30];
 
@@ -15,10 +15,18 @@ function addDays(dateStr, days) {
   return d.toISOString().split('T')[0];
 }
 
+function migrateWord(w) {
+  return {
+    ...w,
+    known_jp_kr_date: w.known_jp_kr_date || null,
+    known_kr_jp_date: w.known_kr_jp_date || null
+  };
+}
+
 export function getWords() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    return data ? JSON.parse(data).map(migrateWord) : [];
   } catch {
     return [];
   }
@@ -45,7 +53,9 @@ export function addWord(hiragana, korean, romaji) {
     date_added: today,
     review_interval: 0,
     next_review_date: today,
-    known_count: 0
+    known_count: 0,
+    known_jp_kr_date: null,
+    known_kr_jp_date: null
   };
   words.push(word);
   return saveWords(words) ? word : null;
@@ -70,23 +80,35 @@ export function getReviewWords() {
   return getWords().filter(w => w.next_review_date <= today);
 }
 
-export function markKnown(id) {
+export function markKnown(id, direction) {
   const words = getWords();
   const idx = words.findIndex(w => w.id === id);
   if (idx === -1) return;
 
   const word = words[idx];
-  const currentIdx = INTERVALS.indexOf(word.review_interval);
-  const nextInterval = currentIdx < INTERVALS.length - 1
-    ? INTERVALS[currentIdx + 1]
-    : INTERVALS[INTERVALS.length - 1];
+  const today = todayStr();
 
-  words[idx] = {
-    ...word,
-    review_interval: nextInterval,
-    next_review_date: addDays(todayStr(), nextInterval),
-    known_count: word.known_count + 1
-  };
+  if (direction === 'jp_kr') {
+    word.known_jp_kr_date = today;
+  } else {
+    word.known_kr_jp_date = today;
+  }
+
+  // 양방향 모두 오늘 안다고 했으면 interval 증가
+  if (word.known_jp_kr_date === today && word.known_kr_jp_date === today) {
+    const currentIdx = INTERVALS.indexOf(word.review_interval);
+    const nextInterval = currentIdx < INTERVALS.length - 1
+      ? INTERVALS[currentIdx + 1]
+      : INTERVALS[INTERVALS.length - 1];
+
+    word.review_interval = nextInterval;
+    word.next_review_date = addDays(today, nextInterval);
+    word.known_count = word.known_count + 1;
+    word.known_jp_kr_date = null;
+    word.known_kr_jp_date = null;
+  }
+
+  words[idx] = word;
   saveWords(words);
 }
 
@@ -98,7 +120,9 @@ export function markUnknown(id) {
   words[idx] = {
     ...words[idx],
     review_interval: 1,
-    next_review_date: addDays(todayStr(), 1)
+    next_review_date: addDays(todayStr(), 1),
+    known_jp_kr_date: null,
+    known_kr_jp_date: null
   };
   saveWords(words);
 }
@@ -138,7 +162,9 @@ export function importWords(newWords) {
         date_added: w.date_added || todayStr(),
         review_interval: w.review_interval || 0,
         next_review_date: w.next_review_date || todayStr(),
-        known_count: w.known_count || 0
+        known_count: w.known_count || 0,
+        known_jp_kr_date: w.known_jp_kr_date || null,
+        known_kr_jp_date: w.known_kr_jp_date || null
       });
       existingKeys.add(key);
       added++;
