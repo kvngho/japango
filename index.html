@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>JapanGo - 일본어 단어 암기</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/wanakana@5.3.1/wanakana.min.js" onerror="
+    var s=document.createElement('script');
+    s.src='js/vendor/wanakana.min.js';
+    document.head.appendChild(s);
+  "></script>
+</head>
+<body>
+
+  <!-- Input View -->
+  <div id="view-input" class="view">
+    <h1 class="view-title">단어 입력</h1>
+    <div class="input-group">
+      <label class="input-label" for="romaji-input">로마자 (romaji)</label>
+      <input type="text" id="romaji-input" class="input-field" placeholder="taberu" autocomplete="off" autocapitalize="off">
+      <div id="hiragana-preview" class="hiragana-preview"></div>
+    </div>
+    <div class="input-group">
+      <label class="input-label" for="korean-input">한국어 뜻</label>
+      <input type="text" id="korean-input" class="input-field" placeholder="먹다">
+    </div>
+    <button id="save-btn" class="save-btn">저장</button>
+    <p class="recent-title">최근 입력</p>
+    <div id="recent-words"></div>
+  </div>
+
+  <!-- Quiz View -->
+  <div id="view-quiz" class="view">
+    <h1 class="view-title">암기</h1>
+    <p id="quiz-progress"></p>
+    <div id="quiz-container"></div>
+    <div id="quiz-buttons">
+      <button id="btn-unknown" class="quiz-btn unknown">모른다</button>
+      <button id="btn-known" class="quiz-btn known">안다</button>
+    </div>
+  </div>
+
+  <!-- Settings View -->
+  <div id="view-settings" class="view">
+    <h1 class="view-title">설정</h1>
+
+    <div id="backup-warning" class="backup-warning">
+      ⚠️ 7일 이상 백업하지 않았습니다. 백업을 권장합니다.
+    </div>
+
+    <div class="settings-section">
+      <p class="settings-section-title">통계</p>
+      <div class="stat-row">
+        <span>전체 단어</span>
+        <span id="stat-total" class="stat-row-value">0</span>
+      </div>
+      <div class="stat-row">
+        <span>오늘 복습 대상</span>
+        <span id="stat-review" class="stat-row-value">0</span>
+      </div>
+      <div class="stat-row">
+        <span>마지막 백업</span>
+        <span id="stat-backup" class="stat-row-value">없음</span>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <p class="settings-section-title">내보내기</p>
+      <button id="btn-export-csv" class="settings-btn">CSV로 내보내기</button>
+      <button id="btn-export-json" class="settings-btn">JSON으로 내보내기</button>
+    </div>
+
+    <div class="settings-section">
+      <p class="settings-section-title">가져오기</p>
+      <button id="btn-import" class="settings-btn primary">CSV / JSON 파일 가져오기</button>
+      <input type="file" id="import-file" accept=".csv,.json" style="display:none">
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-btn" data-view="input" onclick="location.hash='#input'">
+      <span class="nav-icon">✏️</span>
+      <span>입력</span>
+    </button>
+    <button class="nav-btn" data-view="quiz" onclick="location.hash='#quiz'">
+      <span class="nav-icon">🧠</span>
+      <span>암기</span>
+    </button>
+    <button class="nav-btn" data-view="settings" onclick="location.hash='#settings'">
+      <span class="nav-icon">⚙️</span>
+      <span>설정</span>
+    </button>
+  </nav>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
