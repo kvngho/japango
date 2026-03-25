@@ -1,7 +1,9 @@
-import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate, getMissedWords } from './storage.js';
+import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate, getMissedWords, resetMissedStats } from './storage.js';
 import { bindRomajiInput, toHiragana, unbindRomajiInput } from './romaji.js';
-import { initQuiz, handleKnown, handleUnknown } from './quiz.js';
+import { initQuiz, initMissedQuiz, handleKnown, handleUnknown } from './quiz.js';
 import { exportCSV, exportJSON, handleImport } from './export.js';
+
+let skipQuizInit = false;
 
 // --- Routing ---
 function router() {
@@ -13,7 +15,8 @@ function router() {
     case '#quiz':
       document.getElementById('view-quiz').style.display = 'block';
       document.querySelector('[data-view="quiz"]').classList.add('active');
-      initQuiz();
+      if (!skipQuizInit) initQuiz();
+      skipQuizInit = false;
       break;
     case '#missed':
       document.getElementById('view-missed').style.display = 'block';
@@ -171,12 +174,34 @@ function setupQuizView() {
 // --- Missed Words View ---
 function renderMissedWords() {
   const list = document.getElementById('missed-words-list');
+  const actions = document.getElementById('missed-actions');
   const words = getMissedWords();
 
   if (words.length === 0) {
+    actions.innerHTML = '';
     list.innerHTML = '<p class="empty-msg">틀린 단어가 없습니다</p>';
     return;
   }
+
+  actions.innerHTML = `
+    <div class="missed-actions-bar">
+      <button id="btn-missed-quiz" class="missed-action-btn primary">오답만 학습 (${words.length}개)</button>
+      <button id="btn-reset-missed" class="missed-action-btn">오답 초기화</button>
+    </div>`;
+
+  document.getElementById('btn-missed-quiz').addEventListener('click', () => {
+    skipQuizInit = true;
+    location.hash = '#quiz';
+    initMissedQuiz();
+  });
+
+  document.getElementById('btn-reset-missed').addEventListener('click', () => {
+    if (confirm('틀린 횟수와 학습 기록을 초기화하고 처음부터 다시 복습합니다. 계속할까요?')) {
+      const count = resetMissedStats();
+      alert(`${count}개 단어의 오답 기록이 초기화되었습니다.`);
+      renderMissedWords();
+    }
+  });
 
   list.innerHTML = words.map(w => {
     const total = w.total_seen_count || 0;
