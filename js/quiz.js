@@ -10,6 +10,7 @@ let flipped = false;
 let totalReviewCount = 0;
 let completedCount = 0;
 let wrongCards = [];
+let retryMode = false;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -45,6 +46,7 @@ export function initQuiz() {
   totalReviewCount = allCards.length;
   completedCount = 0;
   wrongCards = [];
+  retryMode = false;
 
   if (allCards.length === 0) {
     container.innerHTML = `
@@ -157,6 +159,7 @@ function showSessionComplete() {
   const retryBtn = document.getElementById('btn-retry-wrong');
   if (retryBtn) {
     retryBtn.addEventListener('click', () => {
+      retryMode = true;
       sessionCards = shuffle([...wrongCards]);
       wrongCards = [];
       currentIndex = 0;
@@ -172,6 +175,7 @@ function showSessionComplete() {
   const continueBtn = document.getElementById('btn-continue');
   if (continueBtn) {
     continueBtn.addEventListener('click', () => {
+      retryMode = false;
       wrongCards = [];
       startSession();
     });
@@ -181,7 +185,9 @@ function showSessionComplete() {
 export function handleKnown() {
   if (currentIndex >= sessionCards.length) return;
   const card = sessionCards[currentIndex];
-  markKnown(card.id);
+  if (!retryMode) {
+    markKnown(card.id);
+  }
   stats.known++;
   currentIndex++;
   showCard();
