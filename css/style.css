@@ -334,6 +334,29 @@ body {
   font-size: 0.9rem;
 }
 
+.quiz-remaining {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 16px;
+}
+
+.quiz-continue-btn {
+  margin-top: 12px;
+  padding: 14px 32px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.quiz-continue-btn:active {
+  opacity: 0.8;
+}
+
 .quiz-stats {
   display: flex;
   justify-content: center;

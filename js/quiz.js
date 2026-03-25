@@ -1,9 +1,14 @@
 import { getReviewWords, markKnown, markUnknown } from './storage.js';
 
-let cards = [];
+const SESSION_SIZE = 20;
+
+let allCards = [];
+let sessionCards = [];
 let currentIndex = 0;
 let stats = { total: 0, known: 0, unknown: 0 };
 let flipped = false;
+let totalReviewCount = 0;
+let completedCount = 0;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -16,13 +21,11 @@ function shuffle(arr) {
 
 function buildCards(words) {
   const result = [];
+  const today = new Date().toISOString().split('T')[0];
   for (const word of words) {
-    const today = new Date().toISOString().split('T')[0];
-    // 일→한 방향: 아직 오늘 안다고 안 한 경우만
     if (word.known_jp_kr_date !== today) {
       result.push({ ...word, direction: 'jp_kr', front: word.hiragana, back: word.korean, frontLabel: 'ひらがな', backLabel: '한국어' });
     }
-    // 한→일 방향: 아직 오늘 안다고 안 한 경우만
     if (word.known_kr_jp_date !== today) {
       result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな' });
     }
@@ -30,15 +33,24 @@ function buildCards(words) {
   return result;
 }
 
+function sortByOverdue(cards) {
+  const today = new Date().toISOString().split('T')[0];
+  return cards.sort((a, b) => {
+    const overdueA = (new Date(today) - new Date(a.next_review_date)) / 86400000;
+    const overdueB = (new Date(today) - new Date(b.next_review_date)) / 86400000;
+    return overdueB - overdueA;
+  });
+}
+
 export function initQuiz() {
   const container = document.getElementById('quiz-container');
   const reviewWords = getReviewWords();
-  cards = shuffle(buildCards(reviewWords));
-  currentIndex = 0;
-  stats = { total: cards.length, known: 0, unknown: 0 };
-  flipped = false;
+  const sorted = sortByOverdue(buildCards(reviewWords));
+  allCards = sorted;
+  totalReviewCount = allCards.length;
+  completedCount = 0;
 
-  if (cards.length === 0) {
+  if (allCards.length === 0) {
     container.innerHTML = `
       <div class="quiz-empty">
         <p class="quiz-empty-icon">🎉</p>
@@ -50,17 +62,26 @@ export function initQuiz() {
     return;
   }
 
+  startSession();
+}
+
+function startSession() {
+  sessionCards = shuffle(allCards.splice(0, SESSION_SIZE));
+  currentIndex = 0;
+  stats = { total: sessionCards.length, known: 0, unknown: 0 };
+  flipped = false;
+
   document.getElementById('quiz-buttons').style.display = 'none';
   showCard();
 }
 
 function showCard() {
-  if (currentIndex >= cards.length) {
-    showComplete();
+  if (currentIndex >= sessionCards.length) {
+    showSessionComplete();
     return;
   }
 
-  const card = cards[currentIndex];
+  const card = sessionCards[currentIndex];
   flipped = false;
   document.getElementById('quiz-buttons').style.display = 'none';
 
@@ -92,16 +113,20 @@ function showCard() {
     }
   });
 
+  const done = completedCount + currentIndex + 1;
   document.getElementById('quiz-progress').textContent =
-    `${currentIndex + 1} / ${cards.length}`;
+    `${done} / ${totalReviewCount}`;
 }
 
-function showComplete() {
+function showSessionComplete() {
+  completedCount += stats.total;
+  const remaining = allCards.length;
+
   const container = document.getElementById('quiz-container');
   container.innerHTML = `
     <div class="quiz-complete">
-      <p class="quiz-complete-icon">✅</p>
-      <p class="quiz-complete-text">오늘 복습 완료!</p>
+      <p class="quiz-complete-icon">${remaining > 0 ? '💪' : '✅'}</p>
+      <p class="quiz-complete-text">${remaining > 0 ? '세션 완료!' : '오늘 복습 완료!'}</p>
       <div class="quiz-stats">
         <div class="stat">
           <span class="stat-num">${stats.total}</span>
@@ -116,14 +141,23 @@ function showComplete() {
           <span class="stat-label">모른다</span>
         </div>
       </div>
+      ${remaining > 0 ? `
+        <p class="quiz-remaining">${remaining}장 남음</p>
+        <button class="quiz-continue-btn" id="btn-continue">${Math.min(remaining, SESSION_SIZE)}장 더 하기</button>
+      ` : ''}
     </div>`;
+
   document.getElementById('quiz-buttons').style.display = 'none';
   document.getElementById('quiz-progress').textContent = '';
+
+  if (remaining > 0) {
+    document.getElementById('btn-continue').addEventListener('click', startSession);
+  }
 }
 
 export function handleKnown() {
-  if (currentIndex >= cards.length) return;
-  const card = cards[currentIndex];
+  if (currentIndex >= sessionCards.length) return;
+  const card = sessionCards[currentIndex];
   markKnown(card.id, card.direction);
   stats.known++;
   currentIndex++;
@@ -131,8 +165,8 @@ export function handleKnown() {
 }
 
 export function handleUnknown() {
-  if (currentIndex >= cards.length) return;
-  const card = cards[currentIndex];
+  if (currentIndex >= sessionCards.length) return;
+  const card = sessionCards[currentIndex];
   markUnknown(card.id);
   stats.unknown++;
   currentIndex++;
