@@ -1,4 +1,4 @@
-import { getReviewWords, markKnown, markUnknown } from './storage.js';
+import { getReviewWords, getMissedWords, markKnown, markUnknown } from './storage.js';
 
 const SESSION_SIZE = 20;
 
@@ -11,6 +11,7 @@ let totalReviewCount = 0;
 let completedCount = 0;
 let wrongCards = [];
 let retryMode = false;
+let missedOnlyMode = false;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -47,6 +48,7 @@ export function initQuiz() {
   completedCount = 0;
   wrongCards = [];
   retryMode = false;
+  missedOnlyMode = false;
 
   if (allCards.length === 0) {
     container.innerHTML = `
@@ -54,6 +56,31 @@ export function initQuiz() {
         <p class="quiz-empty-icon">🎉</p>
         <p class="quiz-empty-text">복습할 단어가 없습니다</p>
         <p class="quiz-empty-sub">새 단어를 입력하거나 내일 다시 확인하세요</p>
+      </div>`;
+    document.getElementById('quiz-buttons').style.display = 'none';
+    document.getElementById('quiz-progress').textContent = '';
+    return;
+  }
+
+  startSession();
+}
+
+export function initMissedQuiz() {
+  const container = document.getElementById('quiz-container');
+  const missedWords = getMissedWords();
+  allCards = shuffle(buildCards(missedWords));
+  totalReviewCount = allCards.length;
+  completedCount = 0;
+  wrongCards = [];
+  retryMode = false;
+  missedOnlyMode = true;
+
+  if (allCards.length === 0) {
+    container.innerHTML = `
+      <div class="quiz-empty">
+        <p class="quiz-empty-icon">🎉</p>
+        <p class="quiz-empty-text">틀린 단어가 없습니다</p>
+        <p class="quiz-empty-sub">오답이 생기면 여기서 연습할 수 있어요</p>
       </div>`;
     document.getElementById('quiz-buttons').style.display = 'none';
     document.getElementById('quiz-progress').textContent = '';
@@ -185,7 +212,7 @@ function showSessionComplete() {
 export function handleKnown() {
   if (currentIndex >= sessionCards.length) return;
   const card = sessionCards[currentIndex];
-  if (!retryMode) {
+  if (!retryMode && !missedOnlyMode) {
     markKnown(card.id);
   }
   stats.known++;
@@ -196,7 +223,9 @@ export function handleKnown() {
 export function handleUnknown() {
   if (currentIndex >= sessionCards.length) return;
   const card = sessionCards[currentIndex];
-  markUnknown(card.id);
+  if (!missedOnlyMode) {
+    markUnknown(card.id);
+  }
   wrongCards.push(card);
   stats.unknown++;
   currentIndex++;

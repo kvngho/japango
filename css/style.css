@@ -452,6 +452,35 @@ body {
 .stat-unknown .stat-num { color: var(--danger); }
 
 /* --- Missed Words View --- */
+.missed-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.missed-action-btn {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+  transition: border-color 0.2s;
+}
+
+.missed-action-btn:active {
+  opacity: 0.8;
+}
+
+.missed-action-btn.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
 .missed-word-item {
   display: flex;
   justify-content: space-between;

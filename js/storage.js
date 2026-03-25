@@ -146,6 +146,29 @@ export function getMissedWords() {
     .sort((a, b) => (b.unknown_count || 0) - (a.unknown_count || 0));
 }
 
+export function resetMissedStats() {
+  const words = getWords();
+  const today = todayStr();
+  let count = 0;
+  for (let i = 0; i < words.length; i++) {
+    if ((words[i].unknown_count || 0) > 0) {
+      words[i] = {
+        ...words[i],
+        unknown_count: 0,
+        total_seen_count: 0,
+        review_interval: 0,
+        next_review_date: today,
+        known_count: 0,
+        known_jp_kr_date: null,
+        known_kr_jp_date: null
+      };
+      count++;
+    }
+  }
+  saveWords(words);
+  return count;
+}
+
 export function importWords(newWords) {
   const existing = getWords();
   const existingKeys = new Set(existing.map(w => `${w.hiragana}|${w.korean}`));
