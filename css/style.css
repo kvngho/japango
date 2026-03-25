@@ -357,6 +357,45 @@ body {
   opacity: 0.8;
 }
 
+.quiz-continue-btn.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.wrong-words {
+  margin-top: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.wrong-words-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+
+.wrong-word-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.wrong-word-kr {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.wrong-word-jp {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .quiz-stats {
   display: flex;
   justify-content: center;

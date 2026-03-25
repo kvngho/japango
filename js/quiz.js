@@ -9,6 +9,7 @@ let stats = { total: 0, known: 0, unknown: 0 };
 let flipped = false;
 let totalReviewCount = 0;
 let completedCount = 0;
+let wrongCards = [];
 
 function shuffle(arr) {
   const a = [...arr];
@@ -43,6 +44,7 @@ export function initQuiz() {
   allCards = sorted;
   totalReviewCount = allCards.length;
   completedCount = 0;
+  wrongCards = [];
 
   if (allCards.length === 0) {
     container.innerHTML = `
@@ -131,17 +133,48 @@ function showSessionComplete() {
           <span class="stat-label">모른다</span>
         </div>
       </div>
+      ${wrongCards.length > 0 ? `
+        <div class="wrong-words">
+          <p class="wrong-words-title">틀린 단어</p>
+          ${wrongCards.map(c => `
+            <div class="wrong-word-item">
+              <span class="wrong-word-kr">${c.front}</span>
+              <span class="wrong-word-jp">${c.back}</span>
+            </div>
+          `).join('')}
+        </div>
+        <button class="quiz-continue-btn" id="btn-retry-wrong">틀린 ${wrongCards.length}장 다시하기</button>
+      ` : ''}
       ${remaining > 0 ? `
         <p class="quiz-remaining">${remaining}장 남음</p>
-        <button class="quiz-continue-btn" id="btn-continue">${Math.min(remaining, SESSION_SIZE)}장 더 하기</button>
+        <button class="quiz-continue-btn secondary" id="btn-continue">${Math.min(remaining, SESSION_SIZE)}장 더 하기</button>
       ` : ''}
     </div>`;
 
   document.getElementById('quiz-buttons').style.display = 'none';
   document.getElementById('quiz-progress').textContent = '';
 
-  if (remaining > 0) {
-    document.getElementById('btn-continue').addEventListener('click', startSession);
+  const retryBtn = document.getElementById('btn-retry-wrong');
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      sessionCards = shuffle([...wrongCards]);
+      wrongCards = [];
+      currentIndex = 0;
+      stats = { total: sessionCards.length, known: 0, unknown: 0 };
+      flipped = false;
+      document.getElementById('quiz-buttons').style.display = 'none';
+      totalReviewCount = sessionCards.length;
+      completedCount = 0;
+      showCard();
+    });
+  }
+
+  const continueBtn = document.getElementById('btn-continue');
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => {
+      wrongCards = [];
+      startSession();
+    });
   }
 }
 
@@ -158,6 +191,7 @@ export function handleUnknown() {
   if (currentIndex >= sessionCards.length) return;
   const card = sessionCards[currentIndex];
   markUnknown(card.id);
+  wrongCards.push(card);
   stats.unknown++;
   currentIndex++;
   showCard();
