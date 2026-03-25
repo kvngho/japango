@@ -21,14 +21,8 @@ function shuffle(arr) {
 
 function buildCards(words) {
   const result = [];
-  const today = new Date().toISOString().split('T')[0];
   for (const word of words) {
-    if (word.known_jp_kr_date !== today) {
-      result.push({ ...word, direction: 'jp_kr', front: word.hiragana, back: word.korean, frontLabel: 'ひらがな', backLabel: '한국어' });
-    }
-    if (word.known_kr_jp_date !== today) {
-      result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな' });
-    }
+    result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな' });
   }
   return result;
 }
@@ -85,20 +79,16 @@ function showCard() {
   flipped = false;
   document.getElementById('quiz-buttons').style.display = 'none';
 
-  const directionTag = card.direction === 'jp_kr' ? '일→한' : '한→일';
-
   const container = document.getElementById('quiz-container');
   container.innerHTML = `
     <div class="card" id="quiz-card">
       <div class="card-inner">
         <div class="card-front">
-          <span class="card-direction">${directionTag}</span>
           <span class="card-label">${card.frontLabel}</span>
           <span class="card-text">${card.front}</span>
           <span class="card-hint">탭하여 정답 보기</span>
         </div>
         <div class="card-back">
-          <span class="card-direction">${directionTag}</span>
           <span class="card-label">${card.backLabel}</span>
           <span class="card-text">${card.back}</span>
         </div>
@@ -158,7 +148,7 @@ function showSessionComplete() {
 export function handleKnown() {
   if (currentIndex >= sessionCards.length) return;
   const card = sessionCards[currentIndex];
-  markKnown(card.id, card.direction);
+  markKnown(card.id);
   stats.known++;
   currentIndex++;
   showCard();

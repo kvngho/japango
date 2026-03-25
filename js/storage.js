@@ -80,35 +80,24 @@ export function getReviewWords() {
   return getWords().filter(w => w.next_review_date <= today);
 }
 
-export function markKnown(id, direction) {
+export function markKnown(id) {
   const words = getWords();
   const idx = words.findIndex(w => w.id === id);
   if (idx === -1) return;
 
   const word = words[idx];
   const today = todayStr();
+  const currentIdx = INTERVALS.indexOf(word.review_interval);
+  const nextInterval = currentIdx < INTERVALS.length - 1
+    ? INTERVALS[currentIdx + 1]
+    : INTERVALS[INTERVALS.length - 1];
 
-  if (direction === 'jp_kr') {
-    word.known_jp_kr_date = today;
-  } else {
-    word.known_kr_jp_date = today;
-  }
-
-  // 양방향 모두 오늘 안다고 했으면 interval 증가
-  if (word.known_jp_kr_date === today && word.known_kr_jp_date === today) {
-    const currentIdx = INTERVALS.indexOf(word.review_interval);
-    const nextInterval = currentIdx < INTERVALS.length - 1
-      ? INTERVALS[currentIdx + 1]
-      : INTERVALS[INTERVALS.length - 1];
-
-    word.review_interval = nextInterval;
-    word.next_review_date = addDays(today, nextInterval);
-    word.known_count = word.known_count + 1;
-    word.known_jp_kr_date = null;
-    word.known_kr_jp_date = null;
-  }
-
-  words[idx] = word;
+  words[idx] = {
+    ...word,
+    review_interval: nextInterval,
+    next_review_date: addDays(today, nextInterval),
+    known_count: word.known_count + 1
+  };
   saveWords(words);
 }
 
