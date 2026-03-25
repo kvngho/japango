@@ -115,7 +115,7 @@ export function markUnknown(id) {
   words[idx] = {
     ...word,
     review_interval: 1,
-    next_review_date: addDays(todayStr(), 1),
+    next_review_date: todayStr(),
     unknown_count: (word.unknown_count || 0) + 1,
     total_seen_count: (word.total_seen_count || 0) + 1,
     known_jp_kr_date: null,

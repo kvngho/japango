@@ -68,6 +68,18 @@ function setupInputView() {
   koreanInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') saveBtn.click();
   });
+
+  // Search
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    if (query) {
+      renderSearchResults(query);
+    } else {
+      document.getElementById('word-list-title').textContent = '최근 입력';
+      renderRecentWords();
+    }
+  });
 }
 
 function renderRecentWords() {
@@ -93,6 +105,58 @@ function renderRecentWords() {
       if (confirm('이 단어를 삭제할까요?')) {
         deleteWord(id);
         renderRecentWords();
+      }
+    });
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function highlightMatch(text, query) {
+  const escaped = escapeHtml(text);
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return escaped;
+  const before = escapeHtml(text.slice(0, idx));
+  const match = escapeHtml(text.slice(idx, idx + query.length));
+  const after = escapeHtml(text.slice(idx + query.length));
+  return `${before}<span class="search-highlight">${match}</span>${after}`;
+}
+
+function renderSearchResults(query) {
+  const list = document.getElementById('recent-words');
+  const title = document.getElementById('word-list-title');
+  const q = query.toLowerCase();
+  const words = getWords().filter(w =>
+    w.hiragana.toLowerCase().includes(q) ||
+    w.korean.toLowerCase().includes(q) ||
+    (w.romaji && w.romaji.toLowerCase().includes(q))
+  );
+
+  title.textContent = `검색 결과 (${words.length}건)`;
+
+  if (words.length === 0) {
+    list.innerHTML = '<p class="empty-msg">일치하는 단어가 없습니다</p>';
+    return;
+  }
+
+  list.innerHTML = words.map(w => `
+    <div class="word-item">
+      <div class="word-info">
+        <span class="word-hiragana">${highlightMatch(w.hiragana, query)}</span>
+        <span class="word-korean">${highlightMatch(w.korean, query)}</span>
+      </div>
+      <button class="delete-btn" data-id="${w.id}" aria-label="삭제">✕</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = Number(e.target.dataset.id);
+      if (confirm('이 단어를 삭제할까요?')) {
+        deleteWord(id);
+        renderSearchResults(query);
       }
     });
   });
