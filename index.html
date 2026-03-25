@@ -41,6 +41,12 @@
     </div>
   </div>
 
+  <!-- Missed Words View -->
+  <div id="view-missed" class="view">
+    <h1 class="view-title">많이 틀린 단어</h1>
+    <div id="missed-words-list"></div>
+  </div>
+
   <!-- Settings View -->
   <div id="view-settings" class="view">
     <h1 class="view-title">설정</h1>
@@ -87,6 +93,10 @@
     <button class="nav-btn" data-view="quiz" onclick="location.hash='#quiz'">
       <span class="nav-icon">🧠</span>
       <span>암기</span>
+    </button>
+    <button class="nav-btn" data-view="missed" onclick="location.hash='#missed'">
+      <span class="nav-icon">📊</span>
+      <span>오답</span>
     </button>
     <button class="nav-btn" data-view="settings" onclick="location.hash='#settings'">
       <span class="nav-icon">⚙️</span>

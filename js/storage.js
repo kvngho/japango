@@ -1,7 +1,7 @@
 const STORAGE_KEY = 'japango_words';
 const BACKUP_DATE_KEY = 'japango_last_backup';
 const SCHEMA_VERSION_KEY = 'japango_schema_version';
-const CURRENT_SCHEMA_VERSION = 2;
+const CURRENT_SCHEMA_VERSION = 3;
 
 const INTERVALS = [1, 3, 7, 14, 30];
 
@@ -19,7 +19,9 @@ function migrateWord(w) {
   return {
     ...w,
     known_jp_kr_date: w.known_jp_kr_date || null,
-    known_kr_jp_date: w.known_kr_jp_date || null
+    known_kr_jp_date: w.known_kr_jp_date || null,
+    unknown_count: w.unknown_count || 0,
+    total_seen_count: w.total_seen_count || 0
   };
 }
 
@@ -54,6 +56,8 @@ export function addWord(hiragana, korean, romaji) {
     review_interval: 0,
     next_review_date: today,
     known_count: 0,
+    unknown_count: 0,
+    total_seen_count: 0,
     known_jp_kr_date: null,
     known_kr_jp_date: null
   };
@@ -96,7 +100,8 @@ export function markKnown(id) {
     ...word,
     review_interval: nextInterval,
     next_review_date: addDays(today, nextInterval),
-    known_count: word.known_count + 1
+    known_count: word.known_count + 1,
+    total_seen_count: (word.total_seen_count || 0) + 1
   };
   saveWords(words);
 }
@@ -106,10 +111,13 @@ export function markUnknown(id) {
   const idx = words.findIndex(w => w.id === id);
   if (idx === -1) return;
 
+  const word = words[idx];
   words[idx] = {
-    ...words[idx],
+    ...word,
     review_interval: 1,
     next_review_date: addDays(todayStr(), 1),
+    unknown_count: (word.unknown_count || 0) + 1,
+    total_seen_count: (word.total_seen_count || 0) + 1,
     known_jp_kr_date: null,
     known_kr_jp_date: null
   };
@@ -132,6 +140,12 @@ export function getReviewCount() {
   return getReviewWords().length;
 }
 
+export function getMissedWords() {
+  return getWords()
+    .filter(w => (w.unknown_count || 0) > 0)
+    .sort((a, b) => (b.unknown_count || 0) - (a.unknown_count || 0));
+}
+
 export function importWords(newWords) {
   const existing = getWords();
   const existingKeys = new Set(existing.map(w => `${w.hiragana}|${w.korean}`));
@@ -152,6 +166,8 @@ export function importWords(newWords) {
         review_interval: w.review_interval || 0,
         next_review_date: w.next_review_date || todayStr(),
         known_count: w.known_count || 0,
+        unknown_count: w.unknown_count || 0,
+        total_seen_count: w.total_seen_count || 0,
         known_jp_kr_date: w.known_jp_kr_date || null,
         known_kr_jp_date: w.known_kr_jp_date || null
       });
