@@ -422,6 +422,54 @@ body {
 .stat-known .stat-num { color: var(--success); }
 .stat-unknown .stat-num { color: var(--danger); }
 
+/* --- Missed Words View --- */
+.missed-word-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.missed-word-info {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.missed-word-jp {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.missed-word-kr {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.missed-word-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.missed-word-rate {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--danger);
+}
+
+.missed-word-detail {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
 /* --- Settings View --- */
 .settings-section {
   background: var(--surface);

@@ -20,9 +20,9 @@ function downloadFile(content, filename, type) {
 
 export function exportCSV() {
   const words = getWords();
-  const header = 'hiragana,korean,romaji,date_added,review_interval,next_review_date,known_count';
+  const header = 'hiragana,korean,romaji,date_added,review_interval,next_review_date,known_count,unknown_count,total_seen_count';
   const rows = words.map(w =>
-    [w.hiragana, w.korean, w.romaji, w.date_added, w.review_interval, w.next_review_date, w.known_count]
+    [w.hiragana, w.korean, w.romaji, w.date_added, w.review_interval, w.next_review_date, w.known_count, w.unknown_count || 0, w.total_seen_count || 0]
       .map(escapeCSV).join(',')
   );
   const csv = [header, ...rows].join('\n');
@@ -62,7 +62,9 @@ function parseCSV(text) {
       date_added: obj.date_added || '',
       review_interval: parseInt(obj.review_interval) || 0,
       next_review_date: obj.next_review_date || '',
-      known_count: parseInt(obj.known_count) || 0
+      known_count: parseInt(obj.known_count) || 0,
+      unknown_count: parseInt(obj.unknown_count) || 0,
+      total_seen_count: parseInt(obj.total_seen_count) || 0
     });
   }
 

@@ -1,4 +1,4 @@
-import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate } from './storage.js';
+import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate, getMissedWords } from './storage.js';
 import { bindRomajiInput, toHiragana, unbindRomajiInput } from './romaji.js';
 import { initQuiz, handleKnown, handleUnknown } from './quiz.js';
 import { exportCSV, exportJSON, handleImport } from './export.js';
@@ -14,6 +14,11 @@ function router() {
       document.getElementById('view-quiz').style.display = 'block';
       document.querySelector('[data-view="quiz"]').classList.add('active');
       initQuiz();
+      break;
+    case '#missed':
+      document.getElementById('view-missed').style.display = 'block';
+      document.querySelector('[data-view="missed"]').classList.add('active');
+      renderMissedWords();
       break;
     case '#settings':
       document.getElementById('view-settings').style.display = 'block';
@@ -97,6 +102,34 @@ function renderRecentWords() {
 function setupQuizView() {
   document.getElementById('btn-known').addEventListener('click', handleKnown);
   document.getElementById('btn-unknown').addEventListener('click', handleUnknown);
+}
+
+// --- Missed Words View ---
+function renderMissedWords() {
+  const list = document.getElementById('missed-words-list');
+  const words = getMissedWords();
+
+  if (words.length === 0) {
+    list.innerHTML = '<p class="empty-msg">틀린 단어가 없습니다</p>';
+    return;
+  }
+
+  list.innerHTML = words.map(w => {
+    const total = w.total_seen_count || 0;
+    const unknown = w.unknown_count || 0;
+    const rate = total > 0 ? Math.round((unknown / total) * 100) : 0;
+    return `
+      <div class="missed-word-item">
+        <div class="missed-word-info">
+          <span class="missed-word-jp">${w.hiragana}</span>
+          <span class="missed-word-kr">${w.korean}</span>
+        </div>
+        <div class="missed-word-stats">
+          <span class="missed-word-rate">${rate}%</span>
+          <span class="missed-word-detail">${unknown}회 틀림 / ${total}회 출제</span>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 // --- Settings View ---
