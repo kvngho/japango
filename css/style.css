@@ -139,12 +139,41 @@ body {
   opacity: 0.8;
 }
 
+.search-group {
+  margin-top: 16px;
+}
+
+.search-field {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-field:focus {
+  border-color: var(--primary);
+}
+
+.search-field::placeholder {
+  color: var(--text-light);
+}
+
 .recent-title {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-light);
-  margin-top: 24px;
+  margin-top: 12px;
   margin-bottom: 8px;
+}
+
+.search-highlight {
+  background: #ffeaa7;
+  border-radius: 2px;
 }
 
 .word-item {
