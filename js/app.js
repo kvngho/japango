@@ -1,7 +1,8 @@
-import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate, getMissedWords, resetMissedStats } from './storage.js';
+import { addWord, getWords, deleteWord, getReviewCount, getWordCount, getLastBackupDate, getMissedWords, resetMissedStats, importWords } from './storage.js';
 import { bindRomajiInput, toHiragana, unbindRomajiInput } from './romaji.js';
 import { initQuiz, initMissedQuiz, handleKnown, handleUnknown } from './quiz.js';
 import { exportCSV, exportJSON, handleImport } from './export.js';
+import { WORD_PACKS } from './presets.js';
 
 let skipQuizInit = false;
 
@@ -17,6 +18,11 @@ function router() {
       document.querySelector('[data-view="quiz"]').classList.add('active');
       if (!skipQuizInit) initQuiz();
       skipQuizInit = false;
+      break;
+    case '#packs':
+      document.getElementById('view-packs').style.display = 'block';
+      document.querySelector('[data-view="packs"]').classList.add('active');
+      renderPacks();
       break;
     case '#missed':
       document.getElementById('view-missed').style.display = 'block';
@@ -219,6 +225,106 @@ function renderMissedWords() {
         </div>
       </div>`;
   }).join('');
+}
+
+// --- Word Pack View ---
+function renderPacks() {
+  const container = document.getElementById('pack-list');
+  const existingWords = getWords();
+  const existingKeys = new Set(existingWords.map(w => `${w.hiragana}|${w.korean}`));
+
+  container.innerHTML = WORD_PACKS.map(pack => {
+    const allWords = pack.themes.flatMap(t => t.words);
+    const newCount = allWords.filter(w => !existingKeys.has(`${w.hiragana}|${w.korean}`)).length;
+    const dupCount = allWords.length - newCount;
+
+    return `
+      <div class="pack-card" data-pack-id="${pack.id}">
+        <div class="pack-header">
+          <div>
+            <span class="pack-level">${pack.level}</span>
+            <h2 class="pack-title">${pack.title}</h2>
+            <p class="pack-desc">${pack.description}</p>
+          </div>
+          <button class="pack-toggle" data-pack-id="${pack.id}" aria-label="펼치기">▼</button>
+        </div>
+        <div class="pack-summary">
+          <span>${allWords.length}개 단어</span>
+          <span>${pack.themes.length}개 테마</span>
+          ${dupCount > 0 ? `<span class="pack-dup">${dupCount}개 보유중</span>` : ''}
+        </div>
+        <div class="pack-themes" id="pack-themes-${pack.id}" style="display:none">
+          ${pack.themes.map((theme, ti) => {
+            const themeNewCount = theme.words.filter(w => !existingKeys.has(`${w.hiragana}|${w.korean}`)).length;
+            const themeDupCount = theme.words.length - themeNewCount;
+            return `
+              <div class="pack-theme">
+                <div class="pack-theme-header">
+                  <span class="pack-theme-name">${theme.name} (${theme.words.length})</span>
+                  <button class="pack-theme-add" data-pack-id="${pack.id}" data-theme-idx="${ti}"
+                    ${themeNewCount === 0 ? 'disabled' : ''}>
+                    ${themeNewCount === 0 ? '모두 추가됨' : `+${themeNewCount}개 추가`}
+                  </button>
+                </div>
+                <div class="pack-theme-words">
+                  ${theme.words.map(w => {
+                    const isDup = existingKeys.has(`${w.hiragana}|${w.korean}`);
+                    return `<div class="pack-word ${isDup ? 'pack-word-dup' : ''}">
+                      <span class="pack-word-jp">${w.hiragana}</span>
+                      <span class="pack-word-kr">${w.korean}</span>
+                      ${isDup ? '<span class="pack-word-badge">보유</span>' : ''}
+                    </div>`;
+                  }).join('')}
+                </div>
+              </div>`;
+          }).join('')}
+          <button class="pack-add-all" data-pack-id="${pack.id}"
+            ${newCount === 0 ? 'disabled' : ''}>
+            ${newCount === 0 ? '모든 단어가 이미 추가됨' : `전체 ${newCount}개 새 단어 추가`}
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Toggle pack expand/collapse
+  container.querySelectorAll('.pack-header').forEach(el => {
+    el.addEventListener('click', () => {
+      const packId = el.closest('.pack-card').dataset.packId;
+      const themes = document.getElementById(`pack-themes-${packId}`);
+      const toggle = el.querySelector('.pack-toggle');
+      const isOpen = themes.style.display !== 'none';
+      themes.style.display = isOpen ? 'none' : 'block';
+      toggle.textContent = isOpen ? '▼' : '▲';
+    });
+  });
+
+  // Add single theme
+  container.querySelectorAll('.pack-theme-add').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const packId = btn.dataset.packId;
+      const themeIdx = Number(btn.dataset.themeIdx);
+      const pack = WORD_PACKS.find(p => p.id === packId);
+      const theme = pack.themes[themeIdx];
+      const result = importWords(theme.words);
+      alert(`"${theme.name}" 추가 완료: ${result.added}개 추가, ${result.skipped}개 중복 건너뜀`);
+      renderPacks();
+    });
+  });
+
+  // Add all words in a pack
+  container.querySelectorAll('.pack-add-all').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const packId = btn.dataset.packId;
+      const pack = WORD_PACKS.find(p => p.id === packId);
+      const allWords = pack.themes.flatMap(t => t.words);
+      if (!confirm(`"${pack.title}" 전체 단어를 추가할까요?`)) return;
+      const result = importWords(allWords);
+      alert(`추가 완료: ${result.added}개 추가, ${result.skipped}개 중복 건너뜀`);
+      renderPacks();
+    });
+  });
 }
 
 // --- Settings View ---

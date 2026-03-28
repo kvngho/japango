@@ -1,0 +1,287 @@
+// 일본어 회화 필수단어 프리셋 데이터
+// 테마별로 구성된 단어팩
+
+export const WORD_PACKS = [
+  {
+    id: 'basic',
+    title: '기초 회화 100',
+    description: '일본 여행·일상에 꼭 필요한 기본 단어',
+    level: '초급',
+    themes: [
+      {
+        name: '인사·기본 표현',
+        words: [
+          { hiragana: 'おはようございます', korean: '좋은 아침이에요', romaji: 'ohayou gozaimasu' },
+          { hiragana: 'こんにちは', korean: '안녕하세요', romaji: 'konnichiwa' },
+          { hiragana: 'こんばんは', korean: '안녕하세요(저녁)', romaji: 'konbanwa' },
+          { hiragana: 'さようなら', korean: '안녕히 가세요', romaji: 'sayounara' },
+          { hiragana: 'ありがとうございます', korean: '감사합니다', romaji: 'arigatou gozaimasu' },
+          { hiragana: 'すみません', korean: '죄송합니다/실례합니다', romaji: 'sumimasen' },
+          { hiragana: 'おねがいします', korean: '부탁합니다', romaji: 'onegaishimasu' },
+          { hiragana: 'はい', korean: '네', romaji: 'hai' },
+          { hiragana: 'いいえ', korean: '아니요', romaji: 'iie' },
+          { hiragana: 'だいじょうぶ', korean: '괜찮아요', romaji: 'daijoubu' },
+          { hiragana: 'わかりました', korean: '알겠습니다', romaji: 'wakarimashita' },
+          { hiragana: 'わかりません', korean: '모르겠습니다', romaji: 'wakarimasen' },
+          { hiragana: 'おやすみなさい', korean: '안녕히 주무세요', romaji: 'oyasuminasai' },
+          { hiragana: 'いただきます', korean: '잘 먹겠습니다', romaji: 'itadakimasu' },
+          { hiragana: 'ごちそうさまでした', korean: '잘 먹었습니다', romaji: 'gochisousamadeshita' },
+        ]
+      },
+      {
+        name: '숫자·시간',
+        words: [
+          { hiragana: 'いち', korean: '1', romaji: 'ichi' },
+          { hiragana: 'に', korean: '2', romaji: 'ni' },
+          { hiragana: 'さん', korean: '3', romaji: 'san' },
+          { hiragana: 'よん', korean: '4', romaji: 'yon' },
+          { hiragana: 'ご', korean: '5', romaji: 'go' },
+          { hiragana: 'ろく', korean: '6', romaji: 'roku' },
+          { hiragana: 'なな', korean: '7', romaji: 'nana' },
+          { hiragana: 'はち', korean: '8', romaji: 'hachi' },
+          { hiragana: 'きゅう', korean: '9', romaji: 'kyuu' },
+          { hiragana: 'じゅう', korean: '10', romaji: 'juu' },
+          { hiragana: 'いま', korean: '지금', romaji: 'ima' },
+          { hiragana: 'きょう', korean: '오늘', romaji: 'kyou' },
+          { hiragana: 'あした', korean: '내일', romaji: 'ashita' },
+          { hiragana: 'きのう', korean: '어제', romaji: 'kinou' },
+        ]
+      },
+      {
+        name: '음식·레스토랑',
+        words: [
+          { hiragana: 'みず', korean: '물', romaji: 'mizu' },
+          { hiragana: 'おちゃ', korean: '차', romaji: 'ocha' },
+          { hiragana: 'ごはん', korean: '밥/식사', romaji: 'gohan' },
+          { hiragana: 'にく', korean: '고기', romaji: 'niku' },
+          { hiragana: 'さかな', korean: '생선', romaji: 'sakana' },
+          { hiragana: 'やさい', korean: '채소', romaji: 'yasai' },
+          { hiragana: 'たまご', korean: '계란', romaji: 'tamago' },
+          { hiragana: 'おさけ', korean: '술', romaji: 'osake' },
+          { hiragana: 'メニュー', korean: '메뉴', romaji: 'menyuu' },
+          { hiragana: 'おかいけい', korean: '계산', romaji: 'okaikei' },
+          { hiragana: 'おいしい', korean: '맛있다', romaji: 'oishii' },
+          { hiragana: 'くだもの', korean: '과일', romaji: 'kudamono' },
+          { hiragana: 'パン', korean: '빵', romaji: 'pan' },
+          { hiragana: 'べんとう', korean: '도시락', romaji: 'bentou' },
+        ]
+      },
+      {
+        name: '교통·이동',
+        words: [
+          { hiragana: 'えき', korean: '역', romaji: 'eki' },
+          { hiragana: 'でんしゃ', korean: '전철', romaji: 'densha' },
+          { hiragana: 'バス', korean: '버스', romaji: 'basu' },
+          { hiragana: 'タクシー', korean: '택시', romaji: 'takushii' },
+          { hiragana: 'くうこう', korean: '공항', romaji: 'kuukou' },
+          { hiragana: 'きっぷ', korean: '표/티켓', romaji: 'kippu' },
+          { hiragana: 'みぎ', korean: '오른쪽', romaji: 'migi' },
+          { hiragana: 'ひだり', korean: '왼쪽', romaji: 'hidari' },
+          { hiragana: 'まっすぐ', korean: '똑바로', romaji: 'massugu' },
+          { hiragana: 'ちかく', korean: '근처', romaji: 'chikaku' },
+          { hiragana: 'とおい', korean: '멀다', romaji: 'tooi' },
+          { hiragana: 'ちかい', korean: '가깝다', romaji: 'chikai' },
+          { hiragana: 'ちず', korean: '지도', romaji: 'chizu' },
+        ]
+      },
+      {
+        name: '쇼핑',
+        words: [
+          { hiragana: 'いくら', korean: '얼마', romaji: 'ikura' },
+          { hiragana: 'たかい', korean: '비싸다/높다', romaji: 'takai' },
+          { hiragana: 'やすい', korean: '싸다', romaji: 'yasui' },
+          { hiragana: 'おおきい', korean: '크다', romaji: 'ookii' },
+          { hiragana: 'ちいさい', korean: '작다', romaji: 'chiisai' },
+          { hiragana: 'みせ', korean: '가게', romaji: 'mise' },
+          { hiragana: 'かいもの', korean: '쇼핑', romaji: 'kaimono' },
+          { hiragana: 'これ', korean: '이것', romaji: 'kore' },
+          { hiragana: 'それ', korean: '그것', romaji: 'sore' },
+          { hiragana: 'あれ', korean: '저것', romaji: 'are' },
+          { hiragana: 'ください', korean: '주세요', romaji: 'kudasai' },
+          { hiragana: 'おかね', korean: '돈', romaji: 'okane' },
+        ]
+      },
+      {
+        name: '기본 동사',
+        words: [
+          { hiragana: 'たべる', korean: '먹다', romaji: 'taberu' },
+          { hiragana: 'のむ', korean: '마시다', romaji: 'nomu' },
+          { hiragana: 'いく', korean: '가다', romaji: 'iku' },
+          { hiragana: 'くる', korean: '오다', romaji: 'kuru' },
+          { hiragana: 'みる', korean: '보다', romaji: 'miru' },
+          { hiragana: 'きく', korean: '듣다', romaji: 'kiku' },
+          { hiragana: 'はなす', korean: '말하다', romaji: 'hanasu' },
+          { hiragana: 'かく', korean: '쓰다', romaji: 'kaku' },
+          { hiragana: 'よむ', korean: '읽다', romaji: 'yomu' },
+          { hiragana: 'かう', korean: '사다', romaji: 'kau' },
+          { hiragana: 'する', korean: '하다', romaji: 'suru' },
+          { hiragana: 'ある', korean: '있다(사물)', romaji: 'aru' },
+          { hiragana: 'いる', korean: '있다(사람)', romaji: 'iru' },
+          { hiragana: 'ねる', korean: '자다', romaji: 'neru' },
+          { hiragana: 'おきる', korean: '일어나다', romaji: 'okiru' },
+          { hiragana: 'あるく', korean: '걷다', romaji: 'aruku' },
+        ]
+      },
+      {
+        name: '기본 형용사·부사',
+        words: [
+          { hiragana: 'いい', korean: '좋다', romaji: 'ii' },
+          { hiragana: 'わるい', korean: '나쁘다', romaji: 'warui' },
+          { hiragana: 'あつい', korean: '덥다/뜨겁다', romaji: 'atsui' },
+          { hiragana: 'さむい', korean: '춥다', romaji: 'samui' },
+          { hiragana: 'あたらしい', korean: '새롭다', romaji: 'atarashii' },
+          { hiragana: 'ふるい', korean: '오래되다', romaji: 'furui' },
+          { hiragana: 'はやい', korean: '빠르다/이르다', romaji: 'hayai' },
+          { hiragana: 'おそい', korean: '느리다/늦다', romaji: 'osoi' },
+          { hiragana: 'おおい', korean: '많다', romaji: 'ooi' },
+          { hiragana: 'すくない', korean: '적다', romaji: 'sukunai' },
+          { hiragana: 'たのしい', korean: '즐겁다', romaji: 'tanoshii' },
+          { hiragana: 'むずかしい', korean: '어렵다', romaji: 'muzukashii' },
+          { hiragana: 'かんたん', korean: '간단하다', romaji: 'kantan' },
+          { hiragana: 'とても', korean: '매우', romaji: 'totemo' },
+          { hiragana: 'すこし', korean: '조금', romaji: 'sukoshi' },
+          { hiragana: 'もう', korean: '이미/더', romaji: 'mou' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'intermediate',
+    title: '중급 회화 100',
+    description: '자연스러운 대화를 위한 중급 표현',
+    level: '중급',
+    themes: [
+      {
+        name: '감정·상태',
+        words: [
+          { hiragana: 'うれしい', korean: '기쁘다', romaji: 'ureshii' },
+          { hiragana: 'かなしい', korean: '슬프다', romaji: 'kanashii' },
+          { hiragana: 'さびしい', korean: '외롭다', romaji: 'sabishii' },
+          { hiragana: 'つかれた', korean: '피곤하다', romaji: 'tsukareta' },
+          { hiragana: 'こわい', korean: '무섭다', romaji: 'kowai' },
+          { hiragana: 'はずかしい', korean: '부끄럽다', romaji: 'hazukashii' },
+          { hiragana: 'くやしい', korean: '분하다', romaji: 'kuyashii' },
+          { hiragana: 'なつかしい', korean: '그립다', romaji: 'natsukashii' },
+          { hiragana: 'きもちいい', korean: '기분 좋다', romaji: 'kimochiii' },
+          { hiragana: 'しんぱい', korean: '걱정', romaji: 'shinpai' },
+          { hiragana: 'あんしん', korean: '안심', romaji: 'anshin' },
+          { hiragana: 'きたい', korean: '기대', romaji: 'kitai' },
+          { hiragana: 'びっくり', korean: '깜짝 놀람', romaji: 'bikkuri' },
+          { hiragana: 'がまん', korean: '참음/인내', romaji: 'gaman' },
+        ]
+      },
+      {
+        name: '직장·비즈니스',
+        words: [
+          { hiragana: 'しごと', korean: '일/직장', romaji: 'shigoto' },
+          { hiragana: 'かいぎ', korean: '회의', romaji: 'kaigi' },
+          { hiragana: 'でんわ', korean: '전화', romaji: 'denwa' },
+          { hiragana: 'メール', korean: '이메일', romaji: 'meeru' },
+          { hiragana: 'やくそく', korean: '약속', romaji: 'yakusoku' },
+          { hiragana: 'じかん', korean: '시간', romaji: 'jikan' },
+          { hiragana: 'よてい', korean: '예정/계획', romaji: 'yotei' },
+          { hiragana: 'しめきり', korean: '마감', romaji: 'shimekiri' },
+          { hiragana: 'れんらく', korean: '연락', romaji: 'renraku' },
+          { hiragana: 'そうだん', korean: '상담', romaji: 'soudan' },
+          { hiragana: 'せつめい', korean: '설명', romaji: 'setsumei' },
+          { hiragana: 'かくにん', korean: '확인', romaji: 'kakunin' },
+          { hiragana: 'しゅっちょう', korean: '출장', romaji: 'shucchou' },
+          { hiragana: 'きゅうけい', korean: '휴식', romaji: 'kyuukei' },
+          { hiragana: 'ざんぎょう', korean: '야근', romaji: 'zangyou' },
+        ]
+      },
+      {
+        name: '건강·병원',
+        words: [
+          { hiragana: 'びょういん', korean: '병원', romaji: 'byouin' },
+          { hiragana: 'くすり', korean: '약', romaji: 'kusuri' },
+          { hiragana: 'ねつ', korean: '열', romaji: 'netsu' },
+          { hiragana: 'せき', korean: '기침', romaji: 'seki' },
+          { hiragana: 'あたま', korean: '머리', romaji: 'atama' },
+          { hiragana: 'おなか', korean: '배', romaji: 'onaka' },
+          { hiragana: 'いたい', korean: '아프다', romaji: 'itai' },
+          { hiragana: 'かぜ', korean: '감기', romaji: 'kaze' },
+          { hiragana: 'アレルギー', korean: '알레르기', romaji: 'arerugii' },
+          { hiragana: 'けが', korean: '부상', romaji: 'kega' },
+          { hiragana: 'きぶん', korean: '기분/컨디션', romaji: 'kibun' },
+          { hiragana: 'げんき', korean: '건강한/원기', romaji: 'genki' },
+        ]
+      },
+      {
+        name: '여행·관광',
+        words: [
+          { hiragana: 'ホテル', korean: '호텔', romaji: 'hoteru' },
+          { hiragana: 'よやく', korean: '예약', romaji: 'yoyaku' },
+          { hiragana: 'へや', korean: '방', romaji: 'heya' },
+          { hiragana: 'かんこう', korean: '관광', romaji: 'kankou' },
+          { hiragana: 'おみやげ', korean: '기념품/선물', romaji: 'omiyage' },
+          { hiragana: 'しゃしん', korean: '사진', romaji: 'shashin' },
+          { hiragana: 'にもつ', korean: '짐', romaji: 'nimotsu' },
+          { hiragana: 'パスポート', korean: '여권', romaji: 'pasupooto' },
+          { hiragana: 'あんない', korean: '안내', romaji: 'annai' },
+          { hiragana: 'おんせん', korean: '온천', romaji: 'onsen' },
+          { hiragana: 'じんじゃ', korean: '신사', romaji: 'jinja' },
+          { hiragana: 'おてら', korean: '절', romaji: 'otera' },
+          { hiragana: 'けしき', korean: '경치', romaji: 'keshiki' },
+          { hiragana: 'きねん', korean: '기념', romaji: 'kinen' },
+        ]
+      },
+      {
+        name: '날씨·자연',
+        words: [
+          { hiragana: 'てんき', korean: '날씨', romaji: 'tenki' },
+          { hiragana: 'あめ', korean: '비', romaji: 'ame' },
+          { hiragana: 'ゆき', korean: '눈', romaji: 'yuki' },
+          { hiragana: 'かぜ', korean: '바람', romaji: 'kaze' },
+          { hiragana: 'はれ', korean: '맑음', romaji: 'hare' },
+          { hiragana: 'くもり', korean: '흐림', romaji: 'kumori' },
+          { hiragana: 'うみ', korean: '바다', romaji: 'umi' },
+          { hiragana: 'やま', korean: '산', romaji: 'yama' },
+          { hiragana: 'かわ', korean: '강', romaji: 'kawa' },
+          { hiragana: 'はな', korean: '꽃', romaji: 'hana' },
+          { hiragana: 'さくら', korean: '벚꽃', romaji: 'sakura' },
+          { hiragana: 'そら', korean: '하늘', romaji: 'sora' },
+        ]
+      },
+      {
+        name: '취미·여가',
+        words: [
+          { hiragana: 'しゅみ', korean: '취미', romaji: 'shumi' },
+          { hiragana: 'えいが', korean: '영화', romaji: 'eiga' },
+          { hiragana: 'おんがく', korean: '음악', romaji: 'ongaku' },
+          { hiragana: 'りょこう', korean: '여행', romaji: 'ryokou' },
+          { hiragana: 'どくしょ', korean: '독서', romaji: 'dokusho' },
+          { hiragana: 'りょうり', korean: '요리', romaji: 'ryouri' },
+          { hiragana: 'うんどう', korean: '운동', romaji: 'undou' },
+          { hiragana: 'さんぽ', korean: '산책', romaji: 'sanpo' },
+          { hiragana: 'カラオケ', korean: '노래방', romaji: 'karaoke' },
+          { hiragana: 'ゲーム', korean: '게임', romaji: 'geemu' },
+          { hiragana: 'スポーツ', korean: '스포츠', romaji: 'supootsu' },
+          { hiragana: 'ドラマ', korean: '드라마', romaji: 'dorama' },
+          { hiragana: 'まんが', korean: '만화', romaji: 'manga' },
+          { hiragana: 'つり', korean: '낚시', romaji: 'tsuri' },
+        ]
+      },
+      {
+        name: '의견·대화 표현',
+        words: [
+          { hiragana: 'おもう', korean: '생각하다', romaji: 'omou' },
+          { hiragana: 'かんがえる', korean: '생각하다/고민하다', romaji: 'kangaeru' },
+          { hiragana: 'さんせい', korean: '찬성', romaji: 'sansei' },
+          { hiragana: 'はんたい', korean: '반대', romaji: 'hantai' },
+          { hiragana: 'りゆう', korean: '이유', romaji: 'riyuu' },
+          { hiragana: 'いけん', korean: '의견', romaji: 'iken' },
+          { hiragana: 'たぶん', korean: '아마', romaji: 'tabun' },
+          { hiragana: 'ぜったい', korean: '절대', romaji: 'zettai' },
+          { hiragana: 'もちろん', korean: '물론', romaji: 'mochiron' },
+          { hiragana: 'じつは', korean: '사실은', romaji: 'jitsuwa' },
+          { hiragana: 'たとえば', korean: '예를 들면', romaji: 'tatoeba' },
+          { hiragana: 'つまり', korean: '즉', romaji: 'tsumari' },
+          { hiragana: 'やっぱり', korean: '역시', romaji: 'yappari' },
+          { hiragana: 'なるほど', korean: '그렇구나', romaji: 'naruhodo' },
+          { hiragana: 'ところで', korean: '그런데', romaji: 'tokorode' },
+        ]
+      }
+    ]
+  }
+];

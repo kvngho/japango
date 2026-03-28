@@ -51,6 +51,12 @@
     <div id="missed-words-list"></div>
   </div>
 
+  <!-- Word Pack View -->
+  <div id="view-packs" class="view">
+    <h1 class="view-title">단어팩</h1>
+    <div id="pack-list"></div>
+  </div>
+
   <!-- Settings View -->
   <div id="view-settings" class="view">
     <h1 class="view-title">설정</h1>
@@ -97,6 +103,10 @@
     <button class="nav-btn" data-view="quiz" onclick="location.hash='#quiz'">
       <span class="nav-icon">🧠</span>
       <span>암기</span>
+    </button>
+    <button class="nav-btn" data-view="packs" onclick="location.hash='#packs'">
+      <span class="nav-icon">📦</span>
+      <span>단어팩</span>
     </button>
     <button class="nav-btn" data-view="missed" onclick="location.hash='#missed'">
       <span class="nav-icon">📊</span>

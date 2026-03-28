@@ -58,7 +58,7 @@ body {
 }
 
 .nav-btn .nav-icon {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .nav-btn.active {
@@ -526,6 +526,185 @@ body {
   font-size: 0.75rem;
   color: var(--text-light);
   white-space: nowrap;
+}
+
+/* --- Word Pack View --- */
+.pack-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.pack-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 14px 14px 8px;
+  cursor: pointer;
+}
+
+.pack-level {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+
+.pack-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 4px 0 2px;
+}
+
+.pack-desc {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.pack-toggle {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px 8px;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.pack-summary {
+  display: flex;
+  gap: 12px;
+  padding: 0 14px 12px;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.pack-dup {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.pack-themes {
+  border-top: 1px solid var(--border);
+  padding: 12px 14px;
+}
+
+.pack-theme {
+  margin-bottom: 14px;
+}
+
+.pack-theme:last-child {
+  margin-bottom: 8px;
+}
+
+.pack-theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pack-theme-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.pack-theme-add {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 32px;
+}
+
+.pack-theme-add:disabled {
+  background: var(--border);
+  color: var(--text-light);
+  cursor: default;
+}
+
+.pack-theme-add:not(:disabled):active {
+  opacity: 0.8;
+}
+
+.pack-theme-words {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.pack-word {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  gap: 4px;
+}
+
+.pack-word-dup {
+  opacity: 0.5;
+}
+
+.pack-word-jp {
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pack-word-kr {
+  color: var(--text-light);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pack-word-badge {
+  font-size: 0.6rem;
+  background: var(--success);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.pack-add-all {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--success);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.pack-add-all:disabled {
+  background: var(--border);
+  color: var(--text-light);
+  cursor: default;
+}
+
+.pack-add-all:not(:disabled):active {
+  opacity: 0.8;
 }
 
 /* --- Settings View --- */
