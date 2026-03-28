@@ -283,5 +283,146 @@ export const WORD_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: 'advanced',
+    title: '고급 회화 100',
+    description: '네이티브에 가까운 자연스러운 표현',
+    level: '고급',
+    themes: [
+      {
+        name: '비즈니스 경어',
+        words: [
+          { hiragana: 'おつかれさまです', korean: '수고하셨습니다', romaji: 'otsukaresama desu' },
+          { hiragana: 'おせわになっております', korean: '신세를 지고 있습니다', romaji: 'osewa ni natte orimasu' },
+          { hiragana: 'しつれいいたします', korean: '실례하겠습니다', romaji: 'shitsurei itashimasu' },
+          { hiragana: 'かしこまりました', korean: '알겠습니다(겸양)', romaji: 'kashikomarimashita' },
+          { hiragana: 'おまたせいたしました', korean: '오래 기다리셨습니다', romaji: 'omatase itashimashita' },
+          { hiragana: 'ごけんとう', korean: '검토', romaji: 'gokentou' },
+          { hiragana: 'ごりかい', korean: '이해(존경)', romaji: 'gorikai' },
+          { hiragana: 'おてすう', korean: '수고/번거로움', romaji: 'otesuu' },
+          { hiragana: 'もうしわけございません', korean: '대단히 죄송합니다', romaji: 'moushiwake gozaimasen' },
+          { hiragana: 'さしつかえなければ', korean: '괜찮으시다면', romaji: 'sashitsukaenakereba' },
+          { hiragana: 'ごていあん', korean: '제안(존경)', romaji: 'goteian' },
+          { hiragana: 'うけたまわる', korean: '듣다/받다(겸양)', romaji: 'uketamawaru' },
+          { hiragana: 'おっしゃる', korean: '말씀하시다(존경)', romaji: 'ossharu' },
+          { hiragana: 'いらっしゃる', korean: '계시다(존경)', romaji: 'irassharu' },
+        ]
+      },
+      {
+        name: '감정·심리 표현',
+        words: [
+          { hiragana: 'せつない', korean: '애틋하다/가슴 아프다', romaji: 'setsunai' },
+          { hiragana: 'もどかしい', korean: '답답하다/안타깝다', romaji: 'modokashii' },
+          { hiragana: 'なさけない', korean: '한심하다', romaji: 'nasakenai' },
+          { hiragana: 'うんざり', korean: '질리다/넌더리', romaji: 'unzari' },
+          { hiragana: 'すっきり', korean: '개운하다/상쾌하다', romaji: 'sukkiri' },
+          { hiragana: 'どきどき', korean: '두근두근', romaji: 'dokidoki' },
+          { hiragana: 'わくわく', korean: '설레다/신나다', romaji: 'wakuwaku' },
+          { hiragana: 'いらいら', korean: '짜증나다/초조하다', romaji: 'iraira' },
+          { hiragana: 'うっとうしい', korean: '짜증스럽다/귀찮다', romaji: 'uttoushii' },
+          { hiragana: 'ほっとする', korean: '안도하다', romaji: 'hotto suru' },
+          { hiragana: 'しみじみ', korean: '새삼/절실히', romaji: 'shimijimi' },
+          { hiragana: 'あきれる', korean: '어이없다/기가 막히다', romaji: 'akireru' },
+          { hiragana: 'てれくさい', korean: '쑥스럽다', romaji: 'terekusai' },
+          { hiragana: 'みじめ', korean: '비참하다/초라하다', romaji: 'mijime' },
+        ]
+      },
+      {
+        name: '사회·시사',
+        words: [
+          { hiragana: 'けいざい', korean: '경제', romaji: 'keizai' },
+          { hiragana: 'せいじ', korean: '정치', romaji: 'seiji' },
+          { hiragana: 'かんきょう', korean: '환경', romaji: 'kankyou' },
+          { hiragana: 'ぎじゅつ', korean: '기술', romaji: 'gijutsu' },
+          { hiragana: 'しゃかい', korean: '사회', romaji: 'shakai' },
+          { hiragana: 'きょういく', korean: '교육', romaji: 'kyouiku' },
+          { hiragana: 'ぶんか', korean: '문화', romaji: 'bunka' },
+          { hiragana: 'こくさい', korean: '국제', romaji: 'kokusai' },
+          { hiragana: 'じんこう', korean: '인구', romaji: 'jinkou' },
+          { hiragana: 'エネルギー', korean: '에너지', romaji: 'enerugii' },
+          { hiragana: 'かちかん', korean: '가치관', romaji: 'kachikan' },
+          { hiragana: 'じゆう', korean: '자유', romaji: 'jiyuu' },
+          { hiragana: 'へいわ', korean: '평화', romaji: 'heiwa' },
+          { hiragana: 'さべつ', korean: '차별', romaji: 'sabetsu' },
+        ]
+      },
+      {
+        name: '관용구·숙어',
+        words: [
+          { hiragana: 'きがきく', korean: '눈치가 빠르다', romaji: 'ki ga kiku' },
+          { hiragana: 'てをぬく', korean: '대충 하다/손을 빼다', romaji: 'te wo nuku' },
+          { hiragana: 'くちがかるい', korean: '입이 가볍다', romaji: 'kuchi ga karui' },
+          { hiragana: 'はらがたつ', korean: '화가 나다', romaji: 'hara ga tatsu' },
+          { hiragana: 'めをつぶる', korean: '눈감아 주다', romaji: 'me wo tsuburu' },
+          { hiragana: 'あしをひっぱる', korean: '발목을 잡다', romaji: 'ashi wo hipparu' },
+          { hiragana: 'かおがひろい', korean: '얼굴이 넓다/인맥이 넓다', romaji: 'kao ga hiroi' },
+          { hiragana: 'きがおもい', korean: '마음이 무겁다', romaji: 'ki ga omoi' },
+          { hiragana: 'みみにする', korean: '귀에 들리다/듣게 되다', romaji: 'mimi ni suru' },
+          { hiragana: 'むねをはる', korean: '가슴을 펴다/자랑하다', romaji: 'mune wo haru' },
+          { hiragana: 'こしがひくい', korean: '겸손하다', romaji: 'koshi ga hikui' },
+          { hiragana: 'うでがいい', korean: '솜씨가 좋다', romaji: 'ude ga ii' },
+          { hiragana: 'ねをあげる', korean: '항복하다/포기하다', romaji: 'ne wo ageru' },
+          { hiragana: 'はなしがはずむ', korean: '이야기가 잘 통하다', romaji: 'hanashi ga hazumu' },
+        ]
+      },
+      {
+        name: '접속사·논리 표현',
+        words: [
+          { hiragana: 'したがって', korean: '따라서', romaji: 'shitagatte' },
+          { hiragana: 'すなわち', korean: '즉/다시 말하면', romaji: 'sunawachi' },
+          { hiragana: 'いっぽう', korean: '한편', romaji: 'ippou' },
+          { hiragana: 'それにたいして', korean: '그에 반해', romaji: 'soreni taishite' },
+          { hiragana: 'むしろ', korean: '오히려', romaji: 'mushiro' },
+          { hiragana: 'かならずしも', korean: '반드시~는 아니다', romaji: 'kanarazushimo' },
+          { hiragana: 'いずれにしても', korean: '어쨌든', romaji: 'izureni shitemo' },
+          { hiragana: 'そもそも', korean: '애초에/원래', romaji: 'somosomo' },
+          { hiragana: 'あるいは', korean: '또는/혹은', romaji: 'aruiwa' },
+          { hiragana: 'さらに', korean: '더욱/게다가', romaji: 'sarani' },
+          { hiragana: 'ただし', korean: '단', romaji: 'tadashi' },
+          { hiragana: 'なぜなら', korean: '왜냐하면', romaji: 'nazenara' },
+          { hiragana: 'けっきょく', korean: '결국', romaji: 'kekkyoku' },
+          { hiragana: 'ようするに', korean: '요컨대', romaji: 'yousuruni' },
+          { hiragana: 'とはいえ', korean: '그렇다고는 해도', romaji: 'towaie' },
+        ]
+      },
+      {
+        name: '미묘한 뉘앙스 부사',
+        words: [
+          { hiragana: 'なんとなく', korean: '왠지/어쩐지', romaji: 'nantonaku' },
+          { hiragana: 'いちおう', korean: '일단/우선', romaji: 'ichiou' },
+          { hiragana: 'せっかく', korean: '모처럼/일부러', romaji: 'sekkaku' },
+          { hiragana: 'まさか', korean: '설마', romaji: 'masaka' },
+          { hiragana: 'さすが', korean: '역시/과연', romaji: 'sasuga' },
+          { hiragana: 'どうやら', korean: '아무래도/어쩐지', romaji: 'douyara' },
+          { hiragana: 'いきなり', korean: '갑자기/느닷없이', romaji: 'ikinari' },
+          { hiragana: 'わざわざ', korean: '일부러/굳이', romaji: 'wazawaza' },
+          { hiragana: 'もともと', korean: '원래/본래', romaji: 'motomoto' },
+          { hiragana: 'あくまで', korean: '어디까지나', romaji: 'akumade' },
+          { hiragana: 'たまたま', korean: '우연히', romaji: 'tamatama' },
+          { hiragana: 'めったに', korean: '좀처럼~않다', romaji: 'mettani' },
+          { hiragana: 'つい', korean: '그만/무심코', romaji: 'tsui' },
+          { hiragana: 'まさに', korean: '바로/정확히', romaji: 'masani' },
+        ]
+      },
+      {
+        name: '구어체·일상 고급 표현',
+        words: [
+          { hiragana: 'ぶっちゃけ', korean: '솔직히 말해서', romaji: 'bucchake' },
+          { hiragana: 'めんどくさい', korean: '귀찮다', romaji: 'mendokusai' },
+          { hiragana: 'ちなみに', korean: '참고로/덧붙이면', romaji: 'chinamini' },
+          { hiragana: 'なるべく', korean: '되도록/가능한 한', romaji: 'narubeku' },
+          { hiragana: 'けっこうです', korean: '괜찮습니다/됐습니다', romaji: 'kekkou desu' },
+          { hiragana: 'まあまあ', korean: '그럭저럭/그저 그래', romaji: 'maamaa' },
+          { hiragana: 'しょうがない', korean: '어쩔 수 없다', romaji: 'shouganai' },
+          { hiragana: 'とりあえず', korean: '우선/일단', romaji: 'toriaezu' },
+          { hiragana: 'かえって', korean: '오히려/도리어', romaji: 'kaette' },
+          { hiragana: 'さっぱり', korean: '전혀/깔끔하게', romaji: 'sappari' },
+          { hiragana: 'あいかわらず', korean: '여전히/변함없이', romaji: 'aikawarazu' },
+          { hiragana: 'おかげさまで', korean: '덕분에', romaji: 'okagesamade' },
+          { hiragana: 'いっそ', korean: '차라리', romaji: 'isso' },
+        ]
+      }
+    ]
   }
 ];
