@@ -1,6 +1,19 @@
 import { getReviewWords, getMissedWords, markKnown, markUnknown } from './storage.js';
+import { WORD_PACKS } from './presets.js';
 
-const SESSION_SIZE = 20;
+const SESSION_SIZE = 10;
+
+// Build a lookup map for preset examples
+const presetExamplesMap = new Map();
+for (const pack of WORD_PACKS) {
+  for (const theme of pack.themes) {
+    for (const word of theme.words) {
+      if (word.examples && word.examples.length > 0) {
+        presetExamplesMap.set(`${word.hiragana}|${word.korean}`, word.examples);
+      }
+    }
+  }
+}
 
 let allCards = [];
 let sessionCards = [];
@@ -25,9 +38,21 @@ function shuffle(arr) {
 function buildCards(words) {
   const result = [];
   for (const word of words) {
-    result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな' });
+    const examples = (word.examples && word.examples.length > 0)
+      ? word.examples
+      : presetExamplesMap.get(`${word.hiragana}|${word.korean}`) || [];
+    result.push({ ...word, direction: 'kr_jp', front: word.korean, back: word.hiragana, frontLabel: '한국어', backLabel: 'ひらがな', examples });
   }
   return result;
+}
+
+function speakJapanese(text) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  u.rate = 0.85;
+  speechSynthesis.speak(u);
 }
 
 function sortByOverdue(cards) {
@@ -110,6 +135,15 @@ function showCard() {
   flipped = false;
   document.getElementById('quiz-buttons').style.display = 'none';
 
+  const examplesHtml = card.examples.length > 0
+    ? `<div class="card-examples">${card.examples.map(ex =>
+        `<div class="card-example">
+          <span class="card-example-jp">${ex.jp}</span>
+          <span class="card-example-kr">${ex.kr}</span>
+        </div>`
+      ).join('')}</div>`
+    : '';
+
   const container = document.getElementById('quiz-container');
   container.innerHTML = `
     <div class="card" id="quiz-card">
@@ -121,7 +155,8 @@ function showCard() {
         </div>
         <div class="card-back">
           <span class="card-label">${card.backLabel}</span>
-          <span class="card-text">${card.back}</span>
+          <span class="card-text">${card.back} <button class="tts-btn" id="tts-word" aria-label="발음 듣기">🔊</button></span>
+          ${examplesHtml}
         </div>
       </div>
     </div>`;
@@ -132,6 +167,18 @@ function showCard() {
       document.getElementById('quiz-card').classList.add('flipped');
       document.getElementById('quiz-buttons').style.display = 'flex';
     }
+  });
+
+  document.getElementById('tts-word').addEventListener('click', (e) => {
+    e.stopPropagation();
+    speakJapanese(card.back);
+  });
+
+  container.querySelectorAll('.card-example-jp').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      speakJapanese(el.textContent);
+    });
   });
 
   const done = completedCount + currentIndex + 1;

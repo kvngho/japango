@@ -51,6 +51,8 @@ function setupInputView() {
 
   bindRomajiInput(romajiInput, preview);
 
+  const exampleInput = document.getElementById('example-input');
+
   saveBtn.addEventListener('click', () => {
     const romaji = romajiInput.value.trim();
     const korean = koreanInput.value.trim();
@@ -59,10 +61,19 @@ function setupInputView() {
       return;
     }
     const hiragana = toHiragana(romaji);
-    const word = addWord(hiragana, korean, romaji);
+    const examples = [];
+    const exVal = exampleInput.value.trim();
+    if (exVal) {
+      const parts = exVal.split('/').map(s => s.trim());
+      if (parts.length >= 2) {
+        examples.push({ jp: parts[0], kr: parts[1] });
+      }
+    }
+    const word = addWord(hiragana, korean, romaji, examples);
     if (word) {
       romajiInput.value = '';
       koreanInput.value = '';
+      exampleInput.value = '';
       preview.textContent = '';
       if (window.wanakana) {
         unbindRomajiInput(romajiInput);

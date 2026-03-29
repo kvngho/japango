@@ -21,7 +21,8 @@ function migrateWord(w) {
     known_jp_kr_date: w.known_jp_kr_date || null,
     known_kr_jp_date: w.known_kr_jp_date || null,
     unknown_count: w.unknown_count || 0,
-    total_seen_count: w.total_seen_count || 0
+    total_seen_count: w.total_seen_count || 0,
+    examples: w.examples || []
   };
 }
 
@@ -44,7 +45,7 @@ function saveWords(words) {
   }
 }
 
-export function addWord(hiragana, korean, romaji) {
+export function addWord(hiragana, korean, romaji, examples = []) {
   const words = getWords();
   const today = todayStr();
   const word = {
@@ -59,7 +60,8 @@ export function addWord(hiragana, korean, romaji) {
     unknown_count: 0,
     total_seen_count: 0,
     known_jp_kr_date: null,
-    known_kr_jp_date: null
+    known_kr_jp_date: null,
+    examples
   };
   words.push(word);
   return saveWords(words) ? word : null;
@@ -192,7 +194,8 @@ export function importWords(newWords) {
         unknown_count: w.unknown_count || 0,
         total_seen_count: w.total_seen_count || 0,
         known_jp_kr_date: w.known_jp_kr_date || null,
-        known_kr_jp_date: w.known_kr_jp_date || null
+        known_kr_jp_date: w.known_kr_jp_date || null,
+        examples: w.examples || []
       });
       existingKeys.add(key);
       added++;
