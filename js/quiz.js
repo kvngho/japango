@@ -46,14 +46,6 @@ function buildCards(words) {
   return result;
 }
 
-function speakJapanese(text) {
-  if (!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ja-JP';
-  u.rate = 0.85;
-  speechSynthesis.speak(u);
-}
 
 function sortByOverdue(cards) {
   const today = new Date().toISOString().split('T')[0];
@@ -155,7 +147,7 @@ function showCard() {
         </div>
         <div class="card-back">
           <span class="card-label">${card.backLabel}</span>
-          <span class="card-text">${card.back} <button class="tts-btn" id="tts-word" aria-label="발음 듣기">🔊</button></span>
+          <span class="card-text">${card.back}</span>
           ${examplesHtml}
         </div>
       </div>
@@ -169,17 +161,6 @@ function showCard() {
     }
   });
 
-  document.getElementById('tts-word').addEventListener('click', (e) => {
-    e.stopPropagation();
-    speakJapanese(card.back);
-  });
-
-  container.querySelectorAll('.card-example-jp').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      speakJapanese(el.textContent);
-    });
-  });
 
   const done = completedCount + currentIndex + 1;
   document.getElementById('quiz-progress').textContent =

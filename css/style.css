@@ -307,20 +307,6 @@ body {
   margin-top: 8px;
 }
 
-.tts-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 4px;
-  vertical-align: middle;
-  margin-left: 4px;
-}
-
-.tts-btn:active {
-  opacity: 0.6;
-}
-
 .card-examples {
   width: 100%;
   margin-top: 10px;
@@ -343,12 +329,7 @@ body {
 .card-example-jp {
   font-weight: 600;
   color: var(--primary);
-  cursor: pointer;
   flex-shrink: 0;
-}
-
-.card-example-jp:active {
-  opacity: 0.6;
 }
 
 .card-example-kr {
